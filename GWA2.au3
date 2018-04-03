@@ -190,7 +190,7 @@ EndFunc   ;==>SwapEndian
 ;~ Description: Returns a list of logged characters
 Func GetLoggedCharNames()
 	Local $array = ScanGW()
-	If $array[0] <= 1 Then Return ''
+	If $array[0] < 1 Then Return ''
 	Local $ret = $array[1]
 	For $i = 2 To $array[0]
 		$ret &= "|"
