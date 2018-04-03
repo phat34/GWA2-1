@@ -6,10 +6,9 @@
 If @AutoItX64 Then
 	MsgBox(16, "Error!", "Please run all bots in 32-bit (x86) mode.")
 	Exit
-EndIf
+ EndIf
 
-#include "GWA2_Headers.au3"
-KAOS
+ #include "GWA2_Headers.au3"
 
 #Region Declarations
 Local $mKernelHandle
@@ -193,12 +192,12 @@ Func GetLoggedCharNames()
 	Local $array = ScanGW()
 	If $array[0] <= 1 Then Return ''
 	Local $ret = $array[1]
-	For $i = 2 To $array[0]
+	For $i=2 To $array[0]
 		$ret &= "|"
 		$ret &= $array[$i]
 	Next
 	Return $ret
-EndFunc   ;==>GetLoggedCharNames
+EndFunc
 
 ;~ Description: Returns an array of logged characters of gw windows (at pos 0 there is the size of the array)
 Func ScanGW()
@@ -206,7 +205,7 @@ Func ScanGW()
 	Local $lReturnArray[1] = [0]
 	Local $lPid
 
-	For $i = 1 To $lWinList[0][0]
+	For $i=1 To $lWinList[0][0]
 
 		$mGWHwnd = $lWinList[$i][1]
 		$lPid = WinGetProcess($mGWHwnd)
@@ -225,7 +224,7 @@ Func ScanGW()
 	Next
 
 	Return $lReturnArray
-EndFunc   ;==>ScanGW
+EndFunc
 
 ;~ Description: Injects GWA� into the game client.
 Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = False, $aUseEventSystem = True)
@@ -234,7 +233,11 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = False, $aUseEventSy
 	$mUseEventSystem = $aUseEventSystem
 
 	If IsString($aGW) Then
-		$lWinList = WinList("[REGEXPTITLE:^Guild Wars*; CLASS:ArenaNet_Dx_Window_Class]")
+		If($USE_KAOS_THEORY_LOADER) Then
+			$lWinList = WinList("[REGEXPTITLE:^Guild Wars*; CLASS:ArenaNet_Dx_Window_Class]")
+		Else
+			$lProcessList = processList("gw.exe")
+		EndIf
 
 		For $i = 1 To $lWinList[0][0]
 			$mGWHwnd = $lWinList[$i][1]
@@ -811,7 +814,7 @@ Func DestroyItem($aItem)
 		$lItemID = DllStructGetData($aItem, "ID")
 	EndIf
 	Return SendPacket(0x8, $HEADER_ITEM_DESTROY, $lItemID)
-EndFunc   ;==>DestroyItem
+EndFunc
 
 ;~ Description: Sells an item.
 Func SellItem($aItem, $aQuantity = 0)
@@ -2363,7 +2366,7 @@ Func GetCanPickUp($aAgent)
 	Else
 		Return False
 	EndIf
-EndFunc   ;==>GetCanPickUp
+EndFunc   ;==>GetCan
 
 
 ;~ Description: Returns struct of an inventory bag.
@@ -2882,7 +2885,7 @@ EndFunc   ;==>GetNearestItemToAgent
 ;~ Param: an array returned by GetAgentArray. This is totally optional, but can greatly improve script speed.
 Func GetParty($aAgentArray = 0)
 	Local $lReturnArray[1] = [0]
-	If $aAgentArray == 0 Then $aAgentArray = GetAgentArray(0xDB)
+	If $aAgentArray==0 Then $aAgentArray = GetAgentArray(0xDB)
 	For $i = 1 To $aAgentArray[0]
 		If DllStructGetData($aAgentArray[$i], 'Allegiance') == 1 Then
 			If BitAND(DllStructGetData($aAgentArray[$i], 'TypeMap'), 131072) Then
@@ -2930,19 +2933,19 @@ Func GetPartyDanger($aAgentArray = 0, $aParty = 0)
 	If $aAgentArray == 0 Then $aAgentArray = GetAgentArray(0xDB)
 	If $aParty == 0 Then $aParty = GetParty($aAgentArray)
 
-	Local $lReturnArray[$aParty[0] + 1]
+	Local $lReturnArray[$aParty[0]+1]
 	$lReturnArray[0] = $aParty[0]
-	For $i = 1 To $lReturnArray[0]
+	For $i=1 To $lReturnArray[0]
 		$lReturnArray[$i] = 0
 	Next
 
-	For $i = 1 To $aAgentArray[0]
+	For $i=1 To $aAgentArray[0]
 		If BitAND(DllStructGetData($aAgentArray[$i], 'Effects'), 0x0010) > 0 Then ContinueLoop
 		If DllStructGetData($aAgentArray[$i], 'HP') <= 0 Then ContinueLoop
 		If Not GetIsLiving($aAgentArray[$i]) Then ContinueLoop
-		If DllStructGetData($aAgentArray[$i], "Allegiance") > 3 Then ContinueLoop ; ignore NPCs, spirits, minions, pets
+		If DllStructGetData($aAgentArray[$i], "Allegiance") > 3 Then ContinueLoop	; ignore NPCs, spirits, minions, pets
 
-		For $j = 1 To $aParty[0]
+		For $j=1 To $aParty[0]
 			If GetTarget(DllStructGetData($aAgentArray[$i], "ID")) == DllStructGetData($aParty[$j], "ID") Then
 				If GetDistance($aAgentArray[$i], $aParty[$j]) < 5000 Then
 					If DllStructGetData($aAgentArray[$i], "Team") <> 0 Then
@@ -2957,7 +2960,7 @@ Func GetPartyDanger($aAgentArray = 0, $aParty = 0)
 		Next
 	Next
 	Return $lReturnArray
-EndFunc   ;==>GetPartyDanger
+EndFunc
 ;~ Description: Return the number of enemy agents targeting the given agent.
 Func GetAgentDanger($aAgent, $aAgentArray = 0)
 	If IsDllStruct($aAgent) = 0 Then
@@ -2968,11 +2971,11 @@ Func GetAgentDanger($aAgent, $aAgentArray = 0)
 
 	If $aAgentArray == 0 Then $aAgentArray = GetAgentArray(0xDB)
 
-	For $i = 1 To $aAgentArray[0]
+	For $i=1 To $aAgentArray[0]
 		If BitAND(DllStructGetData($aAgentArray[$i], 'Effects'), 0x0010) > 0 Then ContinueLoop
 		If DllStructGetData($aAgentArray[$i], 'HP') <= 0 Then ContinueLoop
 		If Not GetIsLiving($aAgentArray[$i]) Then ContinueLoop
-		If DllStructGetData($aAgentArray[$i], "Allegiance") > 3 Then ContinueLoop ; ignore NPCs, spirits, minions, pets
+		If DllStructGetData($aAgentArray[$i], "Allegiance") > 3 Then ContinueLoop	; ignore NPCs, spirits, minions, pets
 		If GetTarget(DllStructGetData($aAgentArray[$i], "ID")) == DllStructGetData($aAgent, "ID") Then
 			If GetDistance($aAgentArray[$i], $aAgent) < 5000 Then
 				If DllStructGetData($aAgentArray[$i], "Team") <> 0 Then
@@ -2986,7 +2989,7 @@ Func GetAgentDanger($aAgent, $aAgentArray = 0)
 		EndIf
 	Next
 	Return $lCount
-EndFunc   ;==>GetAgentDanger
+EndFunc
 #EndRegion Agent
 
 #Region AgentInfo
@@ -3577,7 +3580,7 @@ Func ChangeStatus($aStatus)
 		DllStructSetData($mChangeStatus, 2, $aStatus)
 		Enqueue($mChangeStatusPtr, 8)
 	EndIf
-EndFunc   ;==>ChangeStatus
+EndFunc
 
 #EndRegion Misc
 #EndRegion Queries
@@ -4434,7 +4437,7 @@ Func CreateRenderingMod()
 	_('ljne RenderingModReturn')
 	_('RenderingModSkipCompare:')
 	$mASMSize += 17
-	$mASMString &= StringTrimLeft(MemoryRead(GetValue("RenderingMod") + 4, "byte[17]"), 2)
+	$mASMString &= StringTrimLeft(MemoryRead(getvalue("RenderingMod") + 4, "byte[17]"), 2)
 
 	_('cmp dword[DisableRendering],1')
 	_('jz DisableRenderingProc')
@@ -5328,4 +5331,4 @@ Func __ProcessGetName($i_PID)
 		Next
 	EndIf
 	Return SetError(1, 0, '')
-EndFunc   ;==>__ProcessGetName
+EndFunc   ;==>_ProcessGetName
