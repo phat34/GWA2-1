@@ -83,7 +83,7 @@ Global Const $HEADER_CHANGE_SECONDARY		= 0x48	;Changes Secondary class (from Bui
 Global Const $HEADER_SIGNPOST_RUN			= 0x58	;Runs to signpost
 
 ;=CHEST=
-Global Const $HEADER_CHEST_OPEN				= 0x58	;Opens a chest (with key AFAIK)
+Global Const $HEADER_CHEST_OPEN				= 0x5a	;Opens a chest (with key AFAIK)
 Global Const $HEADER_GOLD_MOVE				= 0x82	;Moves Gold (from chest to inventory, and otherway around IIRC)
 
 ;=MISSION=
