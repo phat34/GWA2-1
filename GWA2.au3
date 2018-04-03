@@ -9,7 +9,6 @@ If @AutoItX64 Then
 EndIf
 
 #include "GWA2_Headers.au3"
-KAOS
 
 #Region Declarations
 Local $mKernelHandle
