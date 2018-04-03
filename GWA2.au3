@@ -3264,6 +3264,18 @@ Func GetSkillByID($aSkillID)
 	Return $lSkillStruct
 EndFunc   ;==>GetSkillByID
 
+Func GetEnergyCost($aSkillId)
+   Local $lInitCost = DllStructGetData(GetSkillByID($aSkillId), 'energy')
+   Switch $lInitCost
+         Case 11
+            Return 15
+         Case 12
+            Return 25
+         Case Else
+            Return $lInitCost
+    EndSwitch
+EndFunc   ;==>GetEnergyCost
+
 ;~ Description: Returns current morale.
 Func GetMorale($aHeroNumber = 0)
 	Local $lAgentID = GetHeroID($aHeroNumber)
