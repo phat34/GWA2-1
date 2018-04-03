@@ -189,20 +189,13 @@ EndFunc   ;==>SwapEndian
 #Region Initialisation
 ;~ Description: Returns a list of logged characters
 Func GetLoggedCharNames()
-	Local $array = ScanGW()
-	If $array[0] < 1 Then Return ''
-	Local $ret = $array[1]
-	For $i = 2 To $array[0]
-		$ret &= "|"
-		$ret &= $array[$i]
-	Next
-	Return $ret
-EndFunc   ;==>GetLoggedCharNames
+    return _ArrayToString(ScanGW(), '|')
+EndFunc
 
 ;~ Description: Returns an array of logged characters of gw windows (at pos 0 there is the size of the array)
 Func ScanGW()
 	Local $lWinList = WinList("Guild Wars")
-	Local $lReturnArray[1] = [0]
+	Local $lReturnArray[0]
 	Local $lPid
 
 	For $i = 1 To $lWinList[0][0]
@@ -213,16 +206,13 @@ Func ScanGW()
 		MemoryOpen(WinGetProcess($mGWHwnd))
 
 		If $mGWProcHandle Then
-			$lReturnArray[0] += 1
-			ReDim $lReturnArray[$lReturnArray[0] + 1]
-			$lReturnArray[$lReturnArray[0]] = ScanForCharname()
+			_ArrayAdd($lReturnArray, ScanForCharname())
 		EndIf
 
 		MemoryClose()
 
 		$mGWProcHandle = 0
 	Next
-
 	Return $lReturnArray
 EndFunc   ;==>ScanGW
 
