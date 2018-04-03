@@ -8,6 +8,7 @@ If @AutoItX64 Then
 	Exit
 EndIf
 
+#include <Array.au3>
 #include "GWA2_Headers.au3"
 
 #Region Declarations
