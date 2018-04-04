@@ -991,22 +991,22 @@ EndFunc   ;==>KickNpc
 ;~ Description: Clear the position flag from a hero.
 Func CancelHero($aHeroNumber)
 	Local $lAgentID = GetHeroID($aHeroNumber)
-	Return SendPacket(0x14, $HERO_CLEAR_FLAG, $lAgentID, 0x7F800000, 0x7F800000, 0)
+	Return SendPacket(0x14, $HEADER_HERO_CLEAR_FLAG, $lAgentID, 0x7F800000, 0x7F800000, 0)
 EndFunc   ;==>CancelHero
 
 ;~ Description: Clear the position flag from all heroes.
 Func CancelAll()
-	Return SendPacket(0x10, $PARTY_CLEAR_FLAG, 0x7F800000, 0x7F800000, 0)
+	Return SendPacket(0x10, $HEADER_PARTY_CLEAR_FLAG, 0x7F800000, 0x7F800000, 0)
 EndFunc   ;==>CancelAll
 
 ;~ Description: Place a hero's position flag.
 Func CommandHero($aHeroNumber, $aX, $aY)
-	Return SendPacket(0x14, $HERO_PLACE_FLAG, GetHeroID($aHeroNumber), FloatToInt($aX), FloatToInt($aY), 0)
+	Return SendPacket(0x14, $HEADER_HERO_PLACE_FLAG, GetHeroID($aHeroNumber), FloatToInt($aX), FloatToInt($aY), 0)
 EndFunc   ;==>CommandHero
 
 ;~ Description: Place the full-party position flag.
 Func CommandAll($aX, $aY)
-	Return SendPacket(0x10, $PARTY_PLACE_FLAG, FloatToInt($aX), FloatToInt($aY), 0)
+	Return SendPacket(0x10, $HEADER_PARTY_PLACE_FLAG, FloatToInt($aX), FloatToInt($aY), 0)
 EndFunc   ;==>CommandAll
 
 ;~ Description: Lock a hero onto a target.

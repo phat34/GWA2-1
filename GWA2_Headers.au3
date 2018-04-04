@@ -21,15 +21,15 @@ Global Const $HEADER_QUEST_ABANDON			= 0x13 	;Abandons the quest
 Global Const $HEADER_HERO_AGGRESION			= 0x18	;Sets the heroes aggression level
 Global Const $HEADER_HERO_LOCK				= 0x19	;Locks the heroes target
 Global Const $HEADER_HERO_TOGGLE_SKILL		= 0x1D	;Enables or disables the heroes skill
-Global Const $HERO_CLEAR_FLAG				= 0x1F	;Clears the heroes position flag
-Global Const $HERO_PLACE_FLAG 				= 0x1F	;Sets the heroes position flag, hero runs to position
+Global Const $HEADER_HERO_CLEAR_FLAG				= 0x1F	;Clears the heroes position flag
+Global Const $HEADER_HERO_PLACE_FLAG 				= 0x1F	;Sets the heroes position flag, hero runs to position
 Global Const $HEADER_HERO_ADD				= 0x24	;Adds hero to party
 Global Const $HEADER_HERO_KICK				= 0x25	;Kicks hero from party
 Global Const $HEADER_HEROES_KICK	 		= 0x25	;Kicks ALL heroes from party
 
 ;=PARTY=
-Global Const $PARTY_PLACE_FLAG 				= 0x20	;Sets the party position flag, all party-npcs runs to position
-Global Const $PARTY_CLEAR_FLAG 				= 0x20	;Clears the party position flag
+Global Const $HEADER_PARTY_PLACE_FLAG 				= 0x20	;Sets the party position flag, all party-npcs runs to position
+Global Const $HEADER_PARTY_CLEAR_FLAG 				= 0x20	;Clears the party position flag
 Global Const $HEADER_HENCHMAN_ADD			= 0xA6	;Adds henchman to party
 Global Const $HEADER_PARTY_LEAVE			= 0xA9	;Leaves the party
 Global Const $HEADER_HENCHMAN_KICK			= 0xAF	;Kicks a henchman from party
